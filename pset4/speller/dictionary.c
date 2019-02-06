@@ -69,6 +69,9 @@ unsigned int size(void)
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
+    //case-insensitive
+    //should only return true for words actually in dictionary
+    //beware hard coding common words like "the"
     // TODO
     return false;
 }
