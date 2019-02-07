@@ -49,7 +49,13 @@ bool load(const char *dictionary)
     // Insert words into trie
     while (fscanf(file, "%s", word) != EOF)
     {
-        // TODO
+        int i = 0;
+
+        for(i = 0; i < N; i++)
+            {
+
+                printf("%c\n",word[i]);
+            }
     }
 
     // Close dictionary
