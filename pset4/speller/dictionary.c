@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "dictionary.h"
 
@@ -25,17 +26,22 @@ bool load(const char *dictionary)
 {
     // Initialize trie
     root = malloc(sizeof(node));
+    node* nav = root;
+
+    int wordCount = 0;
+
     if (root == NULL)
     {
         return false;
     }
     root->is_word = false;
+    //each of the children initialized to NULL
     for (int i = 0; i < N; i++)
     {
         root->children[i] = NULL;
     }
 
-    // Open dictionary
+    // Open dictionary TO LOAD
     FILE *file = fopen(dictionary, "r");
     if (file == NULL)
     {
@@ -46,17 +52,56 @@ bool load(const char *dictionary)
     // Buffer for a word
     char word[LENGTH + 1];
 
-    // Insert words into trie
+    // ITERATES OVER THE DICTIONARY TO READ WORDS THEREIN ONE AT TIME INTO BUFFER ABOVE
     while (fscanf(file, "%s", word) != EOF)
     {
         int i = 0;
 
+        //for every dictionary word iterate through the trie
         for(i = 0; i < N; i++)
             {
 
-                printf("%c\n",word[i]);
+                if(word[i] == '\'')
+                {
+                    word[i] = ('z' + 1);
+                }
+                int index = tolower(word[i]) - 'a';
+
+                //printf("%s\n",word);
+                if(nav->children[i] == NULL)
+                {
+                    node *newNode = malloc(sizeof(node));
+                    nav->children[i] = newNode;
+                    printf("%i\n", word[i]);
+                    printf("%c\n", word[i]);
+                }
+                if(word[i] == '\n')
+                {
+                    nav->is_word = true;
+                    nav = root;
+                    wordCount++;
+
+                }
+
             }
+
+            //convert each element in children to alphabet from ascii
+
     }
+
+
+
+    //each element in children corresponds to a different letter
+
+    //check value at children[i]
+        //if null malloac new node for children[i] to point at
+        //if not null move to new Node and continue
+
+    //hard code check for apostrophe
+    //map back to alpha
+    //if at end of word, set is_word to true
+
+
 
     // Close dictionary
     fclose(file);
