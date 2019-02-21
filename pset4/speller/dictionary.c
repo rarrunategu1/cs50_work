@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "dictionary.h"
 
@@ -56,16 +57,17 @@ bool load(const char *dictionary)
     while (fscanf(file, "%s", word) != EOF)
     {
         int i = 0;
+        int x = 0;
 
         //for every dictionary word iterate through the trie
-        for(i = 0; i < N; i++)
+        for(i = 0, x = strlen(word); i < x; i++)
             {
                 //gives apostrophe a hardcoded last position of 27
                 if(word[i] == '\'')
                 {
                     word[i] = ('z' + 1);
                 }
-                //converts alphabet into 0-26
+                //converts alphabet to lower and then turns it into 0-26
                 int index = tolower(word[i]) - 'a';
 
 
