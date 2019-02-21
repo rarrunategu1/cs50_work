@@ -59,7 +59,7 @@ bool load(const char *dictionary)
         int i = 0;
         int x = 0;
 
-        //for every dictionary word iterate through the trie
+        //iterates through every word in the dictionary letter by letter
         for(i = 0, x = strlen(word); i < x; i++)
             {
                 //gives apostrophe a hardcoded last position of 27
@@ -76,20 +76,23 @@ bool load(const char *dictionary)
                 if(nav->children[i] == NULL)
                 {
                     node *newNode = malloc(sizeof(node));
+
                     nav->children[i] = newNode;
+
                     printf("Position: %i\n", i);
                     printf("Index: %i\n", index);
                     printf("%c\n", word[i]);
 
-                        if(word[i] == '\n')
-                        {
+                        // if(word[i] == '\n')
+                        // {
 
-                            printf("Hello\n");
-                            nav->is_word = true;
-                            nav = root;
-                            wordCount++;
-                        }
-                        printf("WordCount: %i\n", wordCount);
+                        //     printf("Hello\n");
+                        //     nav->is_word = true;
+                        //     nav = root;
+                        //     wordCount++;
+                        // }
+                        // printf("WordCount: %i\n", wordCount);
+
                 }
                 if(nav->children[i] != NULL)
                 {
