@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <assert.h>
 
+//#include "test.c"
 #include "dictionary.h"
 
 // Represents number of children for each node in a trie
@@ -21,6 +23,9 @@ node;
 
 // Represents a trie
 node *root;
+
+
+
 
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
@@ -53,72 +58,45 @@ bool load(const char *dictionary)
     // Buffer for a word
     char word[LENGTH + 1];
 
+    char letter;
+
+    int letterIndex = 0;
+
     // ITERATES OVER THE DICTIONARY TO READ WORDS THEREIN ONE AT TIME INTO BUFFER ABOVE
+    //Insert words into trie
     while (fscanf(file, "%s", word) != EOF)
     {
-        int i = 0;
-        int x = 0;
 
-        //iterates through every word in the dictionary letter by letter
-        for(i = 0, x = strlen(word); i < x; i++)
+        letter = fgetc(file);
+
+        printf("%c\n", letter);
+
+            if (isalpha(letter))
             {
-                //gives apostrophe a hardcoded last position of 27
-                if(word[i] == '\'')
-                {
-                    word[i] = ('z' + 1);
-                }
-                //converts alphabet to lower and then turns it into 0-26
-                int index = tolower(word[i]) - 'a';
-
-
-                //printf("%s\n",word);
-
-                if(nav->children[i] == NULL)
-                {
-                    node *newNode = malloc(sizeof(node));
-
-                    nav->children[i] = newNode;
-
-                    printf("Position: %i\n", i);
-                    printf("Index: %i\n", index);
-                    printf("%c\n", word[i]);
-
-                        // if(word[i] == '\n')
-                        // {
-
-                        //     printf("Hello\n");
-                        //     nav->is_word = true;
-                        //     nav = root;
-                        //     wordCount++;
-                        // }
-                        // printf("WordCount: %i\n", wordCount);
-
-                }
-                if(nav->children[i] != NULL)
-                {
-                    nav = nav->children[i];
-                    continue;
-                }
-
-
-                //
-
-
-                // if(word[i] == ' ')
-                //     {
-                //         nav = nav->children[i];
-                //         continue;
-                //     }
-
-
-
-
+                printf("%c\n", letter);
+                printf("Hello\n");
+                return tolower(letter) - 'a';
             }
+            return 26;
 
-            //convert each element in children to alphabet from ascii
+        //PRINTS EACH WORD
+        printf("%s\n", word);
+
+        //WORD COUNT
+        wordCount++;
+        printf("%i\n", wordCount);
+
+
+        //MAKES NEW NODE FOR A LETTER IN A WORD
+        // if(nav->children[N] == NULL)
+        // {
+        //     node *newNode = malloc(sizeof(node));
+        //     nav->children[N] = newNode;
+        //     printf("This node is null.  Create node!");
+        // }
+         //   nav = nav->children[N];
 
     }
-
 
 
     //each element in children corresponds to a different letter
@@ -163,3 +141,5 @@ bool unload(void)
     // TODO
     return false;
 }
+
+
