@@ -58,33 +58,39 @@ bool load(const char *dictionary)
     // Buffer for a word
     char word[LENGTH + 1];
 
-    char letter;
+    int index = 0;
 
-    int letterIndex = 0;
+    int alphaIndex;
 
     // ITERATES OVER THE DICTIONARY TO READ WORDS THEREIN ONE AT TIME INTO BUFFER ABOVE
     //Insert words into trie
-    while (fscanf(file, "%s", word) != EOF)
+    while(fscanf(file, "%s", word) != EOF)
     {
+       printf("%s\n", word);
 
-        letter = fgetc(file);
+        //goes through each character in every word
+       for(int position = 0, wordLength = strlen(word); position < wordLength; position++)
+       {
+           //printf("%c\n", word[position]);
 
-        printf("%c\n", letter);
+           //gets alpha index for each letter at lowercase setting
+           if (isalpha(word[position]))
+           {
+               printf("Hello\n");
+               alphaIndex = tolower(word[position]) - 'a';
+               printf("alphaIndex: %i\n", word[alphaIndex]);
+           }
 
-            if (isalpha(letter))
-            {
-                printf("%c\n", letter);
-                printf("Hello\n");
-                return tolower(letter) - 'a';
-            }
-            return 26;
+           //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
+           alphaIndex = 26;
+       }
 
-        //PRINTS EACH WORD
-        printf("%s\n", word);
+        //ready to insert into trie
+         if (nav->children[alphaIndex] == NULL)
+        {
+            printf("Let's do this\n");
+        }
 
-        //WORD COUNT
-        wordCount++;
-        printf("%i\n", wordCount);
 
 
         //MAKES NEW NODE FOR A LETTER IN A WORD
@@ -95,6 +101,7 @@ bool load(const char *dictionary)
         //     printf("This node is null.  Create node!");
         // }
          //   nav = nav->children[N];
+
 
     }
 
