@@ -79,7 +79,7 @@ bool load(const char *dictionary)
            if (isalpha(word[character]))
            {
                alphaIndex = tolower(word[character]) - 'a';
-               printf("Letter: %c alphaIndex: %i\n", word[character], alphaIndex);
+               printf("Letter: %c\n", word[character]);
            }
            else if (word[character])
            {
@@ -91,10 +91,11 @@ bool load(const char *dictionary)
         //ready to insert into trie
          if (nav->children[alphaIndex] == NULL)
         {
-            printf("alphaIndex: %i\n", alphaIndex);
+            printf("alphaIndex: %i\n\n", alphaIndex);
             node *newNode = malloc(sizeof(node));
 
-            nav->children[alphaIndex] = newNode;
+            nav->children[alphaIndex + 'a'] = newNode;
+
 
             //sets newNode's child to null
             for(int j = 0; j < N; j++)
@@ -104,11 +105,6 @@ bool load(const char *dictionary)
 
             nav = newNode;
 
-            if(nav->children[alphaIndex] == NULL)
-            {
-                printf("Hello\n");
-            }
-            continue;
         }
         else
         {
