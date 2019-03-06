@@ -1,0 +1,55 @@
+cat
+Letter: c
+alphaIndex: 2
+
+Letter: a
+alphaIndex: 0
+
+Letter: t
+alphaIndex: 19
+
+caterpillar
+Letter: c
+alphaIndex: 2
+
+Letter: a
+alphaIndex: 0
+
+Letter: t
+alphaIndex: 19
+
+Letter: e
+alphaIndex: 4
+
+Letter: r
+alphaIndex: 17
+
+Letter: p
+alphaIndex: 15
+
+Letter: i
+alphaIndex: 8
+
+Letter: l
+alphaIndex: 11
+
+Letter: l
+alphaIndex: 11
+
+Letter: a
+alphaIndex: 0
+
+Letter: r
+alphaIndex: 17
+
+WordCount 2
+
+MISSPELLED WORDS
+
+A
+cat
+is
+not
+a
+caterpillar
+Could not unload dictionaries/small.

@@ -67,58 +67,52 @@ bool load(const char *dictionary)
     {
        printf("%s\n", word);
 
-       nav->is_word = true;
+       //nav->is_word = true;
        wordCount++;
 
         //goes through each character in every word
-       for(int character = 0, wordLength = strlen(word); character < wordLength; character++)
+       for (int character = 0, wordLength = strlen(word); character < wordLength; character++)
        {
            //printf("%c\n", word[position]);
 
            //gets alpha index for each letter at lowercase setting
-           if (isalpha(word[character]))
-           {
-               alphaIndex = tolower(word[character]) - 'a';
-               printf("Letter: %c\n", word[character]);
-           }
-           else if (word[character])
-           {
-           //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
-           alphaIndex = 26;
-           }
-
-
-        //ready to insert into trie
-         if (nav->children[alphaIndex] == NULL)
-        {
-            printf("alphaIndex: %i\n\n", alphaIndex);
-            node *newNode = malloc(sizeof(node));
-
-            nav->children[alphaIndex + 'a'] = newNode;
-
-
-            //sets newNode's child to null
-            for(int j = 0; j < N; j++)
+            if (isalpha(word[character]))
             {
-                newNode->children[j] = NULL;
+                alphaIndex = tolower(word[character]) - 'a';
+                printf("Letter: %c\n", word[character]);
+            }
+            else if (word[character])
+            {
+            //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
+            alphaIndex = 26;
             }
 
-            nav = newNode;
+            //ready to insert into trie
+            if (nav->children[alphaIndex] == NULL)
+            {
+                //printf("alphaIndex: %i\n\n", alphaIndex);
+                node *newNode = malloc(sizeof(node));
+
+                //sets newNode's child to null
+                for(int j = 0; j < N; j++)
+                {
+                    newNode->children[j] = NULL;
+                }
+                nav->children[alphaIndex] = newNode;
+                nav = newNode;
+                continue;
+            }
+            else
+            {
+                nav = nav->children[alphaIndex];
+
+            }
 
         }
-        else
-        {
-            nav = nav->children[alphaIndex];
-            continue;
-        }
-}
-
-
+        nav->is_word = true;
+        nav = root;
     }
 
-    //if at end of word, set is_word to true
-    // nav->is_word = true;
-    // wordCount++;
     printf("WordCount %i\n", wordCount);
 
     // Close dictionary
@@ -142,6 +136,9 @@ bool check(const char *word)
     //should only return true for words actually in dictionary
     //beware hard coding common words like "the"
     // TODO
+
+
+
     return false;
 }
 
