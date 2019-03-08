@@ -83,10 +83,10 @@ bool load(const char *dictionary)
                 alphaIndex = tolower(word[character]) - 'a';
                 //printf("Letter: %c\n", word[character]);
             }
-            else if (word[character])
+            if (word[character] == '\'')
             {
             //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
-            alphaIndex = 26;
+                alphaIndex = 26;
             }
 
             //ready to insert into trie
@@ -150,11 +150,12 @@ bool check(const char *word)
                 txtAlphaIndex = tolower(word[textChar]) - 'a';
                 //printf("Letter: %c\n", word[character]);
             }
-            else if (word[textChar])
+            if (word[textChar] == '\'')
             {
             //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
             txtAlphaIndex = 26;
             }
+
 
             //compare to words in trie
             if(trav->children[txtAlphaIndex] == NULL)
@@ -165,7 +166,7 @@ bool check(const char *word)
             {
                 trav = trav->children[txtAlphaIndex];
             }
-            else if ( textChar == textWord -1)
+            else if (textChar == textWord -1)
             {
                 //printf("%s is a word in the dictionary.\n", word);
                 return true;
@@ -173,19 +174,30 @@ bool check(const char *word)
     }
     return false;
 }
-
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
     // // TODO
-    // node *cursor = root;
+    node *cursor = root;
 
-    // //travel to last child
-    // while(cursor->children[i] ! = NULL)
-    // {
-    //     cursor = cursor->children[i];
-    // }
+    //travel to last child
 
+    if (cursor->is_word == false)
+    {
+        for (int position = 0; position < N; position++)
+        {
+            if(cursor->children[position] != NULL)
+            {
+                free(cursor->children[position]);
+            }
+
+        }
+    }
+    if (cursor != NULL)
+    {
+        free(cursor);
+        return true;
+    }
     return false;
 }
 
