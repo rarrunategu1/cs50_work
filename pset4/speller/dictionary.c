@@ -28,6 +28,7 @@ int wordCount = 0;
 
 
 
+
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
@@ -59,13 +60,14 @@ bool load(const char *dictionary)
 
     int index = 0;
 
-    int alphaIndex;
+    int alphaIndex = 0;
+
 
     // ITERATES OVER THE DICTIONARY TO READ WORDS THEREIN ONE AT TIME INTO BUFFER ABOVE
     //Insert words into trie
     while(fscanf(file, "%s", word) != EOF)
     {
-       printf("%s\n", word);
+       //printf("%s\n", word);
 
        //nav->is_word = true;
        wordCount++;
@@ -79,7 +81,7 @@ bool load(const char *dictionary)
             if (isalpha(word[character]))
             {
                 alphaIndex = tolower(word[character]) - 'a';
-                printf("Letter: %c\n", word[character]);
+                //printf("Letter: %c\n", word[character]);
             }
             else if (word[character])
             {
@@ -113,7 +115,7 @@ bool load(const char *dictionary)
         nav = root;
     }
 
-    printf("WordCount %i\n", wordCount);
+    //printf("WordCount %i\n", wordCount);
 
     // Close dictionary
     fclose(file);
@@ -136,16 +138,54 @@ bool check(const char *word)
     //should only return true for words actually in dictionary
     //beware hard coding common words like "the"
     // TODO
+    node *trav = root;
+    int txtAlphaIndex = 0;
 
 
+    for (int textChar = 0, textWord = strlen(word); textChar < textWord; textChar++)
+    {
+        //gets alpha index for each letter at lowercase setting
+            if (isalpha(word[textChar]))
+            {
+                txtAlphaIndex = tolower(word[textChar]) - 'a';
+                //printf("Letter: %c\n", word[character]);
+            }
+            else if (word[textChar])
+            {
+            //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
+            txtAlphaIndex = 26;
+            }
 
+            //compare to words in trie
+            if(trav->children[txtAlphaIndex] == NULL)
+            {
+                return false;
+            }
+            else if (trav->children[txtAlphaIndex] != NULL && textChar != textWord -1)
+            {
+                trav = trav->children[txtAlphaIndex];
+            }
+            else if ( textChar == textWord -1)
+            {
+                //printf("%s is a word in the dictionary.\n", word);
+                return true;
+            }
+    }
     return false;
 }
 
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    // TODO
+    // // TODO
+    // node *cursor = root;
+
+    // //travel to last child
+    // while(cursor->children[i] ! = NULL)
+    // {
+    //     cursor = cursor->children[i];
+    // }
+
     return false;
 }
 
