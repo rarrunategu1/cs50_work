@@ -26,9 +26,6 @@ node *root;
 
 int wordCount = 0;
 
-
-
-
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
@@ -86,9 +83,13 @@ bool load(const char *dictionary)
                 alphaIndex = 26;
             }
 
-
+            if (nav->children[alphaIndex] != NULL)
+            {
+                //printf("Hello");
+                nav = nav->children[alphaIndex];
+            }
             //ready to insert into trie
-            if (nav->children[alphaIndex] == NULL)
+            else if (nav->children[alphaIndex] == NULL)
             {
                 //printf("Hello");
                 node *newNode = malloc(sizeof(node));
@@ -101,19 +102,10 @@ bool load(const char *dictionary)
                 }
                 //printf("alphaIndex: %i\n\n", alphaIndex);
                 nav = newNode;
-
             }
-
-            else if (nav->children[alphaIndex] != NULL)
-            {
-                //printf("Hello");
-                nav = nav->children[alphaIndex];
-            }
-
        }
 
         nav->is_word = true;
-
         nav = root;
     }
 
@@ -145,43 +137,37 @@ bool check(const char *word)
 
     int misspelledWord = 0;
 
-
-    // postion = 1, length = 1, temp, string_length;
-    // temp = string_length = strlen(word);
-
-
-
-
-     for (int textChar = 0, textWord = strlen(word); textChar < textWord; textChar++)
+    for (int textLetter = 0, textWord = strlen(word); textLetter < textWord; textLetter++)
     {
         int txtAlphaIndex = 0;
         //gets alpha index for each letter at lowercase setting
-            if (isalpha(word[textChar]))
-            {
-                txtAlphaIndex = tolower(word[textChar]) - 'a';
-                //printf("Letter: %c\n", word[character]);
-            }
-            else if (word[textChar] == '\'')
-            {
-            //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
-            txtAlphaIndex = 26;
-            }
+        if (isalpha(word[textLetter]))
+        {
+            txtAlphaIndex = tolower(word[textLetter]) - 'a';
+            //printf("Letter: %c\n", word[character]);
+        }
+        else if (word[textLetter] == '\'')
+        {
+        //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
+        txtAlphaIndex = 26;
+        }
 
 
-            //compare to words in trie
-            if(trav->children[txtAlphaIndex] == NULL)
-            {
-                misspelledWord++;
-                return false;
-            }
-            else if (trav->children[txtAlphaIndex] != NULL)
-            {
-                trav = trav->children[txtAlphaIndex];
-            }
+        //compare to words in trie
+        if(trav->children[txtAlphaIndex] == NULL)
+        {
+            misspelledWord++;
+            return false;
+        }
+        else if (trav->children[txtAlphaIndex] != NULL)
+        {
+            trav = trav->children[txtAlphaIndex];
+        }
     }
     return trav->is_word;
 }
 
+//recursie function to use in unload
 void freeNode(node *trav)
 {
     for (int i = 0; i < N; i++)
