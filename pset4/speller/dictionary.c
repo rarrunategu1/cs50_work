@@ -61,55 +61,47 @@ bool load(const char *dictionary)
 
 
     // ITERATES OVER THE DICTIONARY TO READ WORDS THEREIN ONE AT TIME INTO BUFFER ABOVE
-    //Insert words into trie
     while(fscanf(file, "%s", word) != EOF)
     {
-       wordCount++;
+       //wordCount++;
 
-        //goes through each character in every word
+        //ITERATE THROUGH EVERY LETTER IN WORD
        for (int letter = 0, wordLength = strlen(word); letter < wordLength; letter++)
        {
-           //printf("%c\n", word[position]);
-
-           //gets alpha index for each letter at lowercase setting
+          //ALPHA INDEX FOR EACH LETTER
             if (isalpha(word[letter]))
             {
                 alphaIndex = tolower(word[letter]) - 'a';
-                //printf("Letter: %c\n", word[character]);
             }
             else if (word[letter] == '\'')
             {
-            //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
                 alphaIndex = 26;
             }
 
-            if (nav->children[alphaIndex] != NULL)
+            //INSERT WORDS INTO TRIE IF EQUAL TO NULL
+            if (nav->children[alphaIndex] == NULL)
             {
-                //printf("Hello");
-                nav = nav->children[alphaIndex];
-            }
-            //ready to insert into trie
-            else if (nav->children[alphaIndex] == NULL)
-            {
-                //printf("Hello");
-                node *newNode = malloc(sizeof(node));
-                nav->children[alphaIndex] = newNode;
+                node *newNode = calloc(1, sizeof(node));
 
-                //sets newNode's child to null
+                //SET NEW NODE CHILD TO NULL
                 for(int j = 0; j < N; j++)
                 {
                     newNode->children[j] = NULL;
                 }
-                //printf("alphaIndex: %i\n\n", alphaIndex);
+
+                nav->children[alphaIndex] = newNode;
                 nav = newNode;
             }
+            else
+            {
+                //TRAVELS THROUGH TRIE IF NOT EQUAL TO NULL
+                nav = nav->children[alphaIndex];
+            }
        }
-
+        wordCount++;
         nav->is_word = true;
         nav = root;
     }
-
-    //printf("WordCount %i\n", wordCount);
 
     // Close dictionary
     fclose(file);
@@ -140,7 +132,8 @@ bool check(const char *word)
     for (int textLetter = 0, textWord = strlen(word); textLetter < textWord; textLetter++)
     {
         int txtAlphaIndex = 0;
-        //gets alpha index for each letter at lowercase setting
+
+        //ALPHA INDEX FOR EACH LETTER
         if (isalpha(word[textLetter]))
         {
             txtAlphaIndex = tolower(word[textLetter]) - 'a';
@@ -148,15 +141,13 @@ bool check(const char *word)
         }
         else if (word[textLetter] == '\'')
         {
-        //alpha index in case there's an apostrophe.  It's a given so I don't have to give specifics on if it's an apostrophe or some other character outside of the alphabet
-        txtAlphaIndex = 26;
+            txtAlphaIndex = 26;
         }
 
-
-        //compare to words in trie
+        //SEE IF WORD IN TXT FILE EXISTS IN THE TRIE
         if(trav->children[txtAlphaIndex] == NULL)
         {
-            misspelledWord++;
+            //misspelledWord++;
             return false;
         }
         else if (trav->children[txtAlphaIndex] != NULL)
@@ -167,15 +158,16 @@ bool check(const char *word)
     return trav->is_word;
 }
 
-//recursie function to use in unload
+//recursive function to use in unload
 void freeNode(node *trav)
 {
     for (int i = 0; i < N; i++)
     {
         // Pointer set to children
-        if (trav -> children[i])
-            freeNode(trav -> children[i]);
-
+        if (trav->children[i])
+        {
+            freeNode(trav->children[i]);
+        }
     }
     free(trav);
 }
