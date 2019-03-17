@@ -55,16 +55,11 @@ bool load(const char *dictionary)
     // Buffer for a word
     char word[LENGTH + 1];
 
-    int index = 0;
-
     int alphaIndex = 0;
-
 
     // ITERATES OVER THE DICTIONARY TO READ WORDS THEREIN ONE AT TIME INTO BUFFER ABOVE
     while(fscanf(file, "%s", word) != EOF)
     {
-       //wordCount++;
-
         //ITERATE THROUGH EVERY LETTER IN WORD
        for (int letter = 0, wordLength = strlen(word); letter < wordLength; letter++)
        {
@@ -156,6 +151,7 @@ bool check(const char *word)
         }
     }
     return trav->is_word;
+
 }
 
 //recursive function to use in unload
